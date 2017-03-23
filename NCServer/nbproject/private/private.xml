@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/RandomString.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameSessionManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/BitConverter.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/HttpSessionBasedOnJson.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/IGameSessionManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/IListenerManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/ConnectManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/Server.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/TcpServer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/MessageBox.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_GameSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/SessionIdentifierGenerator.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/DataBuffer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameMessage.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_TcpSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/DataReader.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_GameSessionManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/IGameSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/AbstractSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/IBaseObject.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_TcpServer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/HTTPServer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/HttpConnectionInfo.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_GameState.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/IHttpSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_Connector.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/IAppGame.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/SessionFactory.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/ListenerManager.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_AppServer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/IServer.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_Frame.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/IListener.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/utils/ISender.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/HttpSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/NC_HttpSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameContext.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/BaseAppGame.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameStateChecker.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameMessageId.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/game/GameSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/IConnectionInfo.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/TcpSession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/ISession.java</file>
+            <file>file:/I:/Data/Users/Vladimir/Programming/TestTask/noughts%20and%20crosses/NCServer/src/ncserver/connection/TcpConnectionInfo.java</file>
+        </group>
+    </open-files>
+</project-private>
