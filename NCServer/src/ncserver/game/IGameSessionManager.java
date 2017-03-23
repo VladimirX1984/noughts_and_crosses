@@ -13,9 +13,11 @@ import ncserver.utils.IBaseObject;
  */
 public interface IGameSessionManager extends IBaseObject {
 
-    void initGameSession(String accessToken, String gameToken);
+    <TGameSession extends IGameSession> TGameSession createGameSession(String accessToken,
+                                                                       String gameToken);
 
-    void initGameSession(String accessToken, String gameToken, Object data);
+    <TGameSession extends IGameSession> TGameSession createGameSession(String accessToken,
+                                                                       String gameToken, Object data);
 
     boolean removeGameSession(String accessToken);
 

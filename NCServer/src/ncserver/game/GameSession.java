@@ -70,10 +70,10 @@ public abstract class GameSession extends ListenerManager implements IGameSessio
     private final String accessToken;
     private final String gameToken;
 
-    public GameSession(GameContext acontext, String anAccessToken, String anGameToken) {
-        context = acontext;
-        accessToken = anAccessToken;
-        gameToken = anGameToken;
+    public GameSession(GameContext context, String accessToken, String gameToken) {
+        this.context = context;
+        this.accessToken = accessToken;
+        this.gameToken = gameToken;
     }
     // </editor-fold>
 }

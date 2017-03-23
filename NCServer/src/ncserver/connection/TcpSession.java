@@ -79,19 +79,15 @@ public class TcpSession extends AbstractSession {
      */
     protected short signature;
 
-    private long sessionId;
+    private final long sessionId;
 
     // <editor-fold defaultstate="collapsed" desc="Создание сессии">
-    public TcpSession(IConnectManager connectManager, IConnectionInfo connection, long asessionId) {
-        open(connectManager, connection);
-        sessionId = asessionId;
+    public TcpSession(IConnectManager connectManager, IConnectionInfo connectInfo, long sessionId) {
+        this.connectManager = connectManager;
+        this.connectInfo = connectInfo;
+        this.sessionId = sessionId;
     }
-
-    private void open(IConnectManager connManager, IConnectionInfo connection) {
-        connectManager = connManager;
-        connectInfo = connection;
-    }
-
+    
     public long getSessionID() {
         return sessionId;
     }

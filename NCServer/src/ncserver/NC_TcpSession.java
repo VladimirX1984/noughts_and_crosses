@@ -39,7 +39,7 @@ public final class NC_TcpSession extends TcpSession {
         }
     }
 
-    private GameContext context;
+    private final GameContext context;
 
     /**
      * идентификатор пакета
@@ -70,10 +70,10 @@ public final class NC_TcpSession extends TcpSession {
         return userName;
     }
 
-    public NC_TcpSession(IConnectManager connectHandler, IConnectionInfo connection,
-                         GameContext aContext, long sessionID) {
-        super(connectHandler, connection, sessionID);
-        context = aContext;
+    public NC_TcpSession(IConnectManager connectHandler, IConnectionInfo connectInfo,
+                         GameContext context, long sessionID) {
+        super(connectHandler, connectInfo, sessionID);
+        this.context = context;
         signature = 20100;
         messageID = 0;
 
@@ -84,7 +84,6 @@ public final class NC_TcpSession extends TcpSession {
         setInMessageHandlers(inHandlers);
     }
 
-    
     @Override
     protected void onSessionClosing() {
         context.GetGame().sendEvent(GameMessageId.CLIENT_DISCONNECTED, userName);
@@ -131,10 +130,10 @@ public final class NC_TcpSession extends TcpSession {
 
         mode = modeRef.get();
         if (mode == 1) {
-            // создание игры
+            // создание игры (не реализовано поддержка нескольких игровых сессий)
         }
         else if (mode == 0) {
-            // присоединение к игре
+            // присоединение к игре (не реализовано поддержка нескольких игровых сессий)
         }
 
         boolean bMyFirstMove = false;
@@ -165,15 +164,15 @@ public final class NC_TcpSession extends TcpSession {
         boolean bGameInit = context.getGameSessionManager().isInited(gameSessionId);
 
         if (!bGameInit) {
-            context.getGameSessionManager().initGameSession(gameSessionId, gameSessionId,
-                new Short(rowCellCount).intValue());
-            NC_GameSession gameSession = context.getGameSessionManager().getGameSession(gameSessionId);
+            NC_GameSession gameSession = context.getGameSessionManager().
+                createGameSession(gameSessionId, gameSessionId, new Short(rowCellCount).intValue());
             gameSession.setUserNameX(userName);
             gameSession.setNumberToWin(numberToWin);
             gameSession.setMyFirstMove(bMyFirstMove);
-            gameSession.setYourMove(bMyFirstMove, bMyFirstMove);
+            gameSession.setMyMove(bMyFirstMove);
 
-            context.GetGame().sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(0, gameSession));
+            context.GetGame().
+                sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(0, gameSession));
 
             DataBuffer dataBuffer = new DataBuffer();
             dataBuffer.add(outConfirmation);
@@ -182,10 +181,12 @@ public final class NC_TcpSession extends TcpSession {
                 (short)dataBuffer.getBufferSize());
         }
         else if (bGameInit) {
-            NC_GameSession gameSession = context.getGameSessionManager().getGameSession(gameSessionId);
+            NC_GameSession gameSession = context.getGameSessionManager().
+                getGameSession(gameSessionId);
             gameSession.setUserName0(userName);
 
-            context.GetGame().sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(1, gameSession));
+            context.GetGame().
+                sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(1, gameSession));
 
             bMyFirstMove = gameSession.isMyFirstMove();
             boolean bMyMove = gameSession.isMyMove();
@@ -210,7 +211,7 @@ public final class NC_TcpSession extends TcpSession {
             }
             backDataBuffer.add(!bMyFirstMove);
             backDataBuffer.add(!bMyMove);
-            backDataBuffer.add((short)gameSession.getGameState().size());
+            backDataBuffer.add((short)gameSession.getGameState().getSize());
             backDataBuffer.add((short)gameSession.getNumberToWin());
             backDataBuffer.addASCII(gameSession.getGameState().getString());
             sendData(true, outGameInfo, messageID, backDataBuffer.getBuffer(),
@@ -263,10 +264,10 @@ public final class NC_TcpSession extends TcpSession {
         }
         cellValue = cellValueRef.get();
 
-        NC_GameSession gameSession = context.getGameSessionManager().getGameSession(TcpServer.GAME_ID);
+        NC_GameSession gameSession = context.getGameSessionManager().
+            getGameSession(TcpServer.GAME_ID);
         gameSession.makeMove(cellNumber, cellValue);
-
-        int winner = gameSession.finishGameIfNeeded();
+        int winner = gameSession.getWinner();
         if (winner > GameStateChecker.NONE) {
             sendInfo(outQuery, cellNumber, cellValue);
             sendEndGame((byte)winner);
@@ -316,7 +317,7 @@ public final class NC_TcpSession extends TcpSession {
 
     private final byte outQuery = 1;          // запрос и команда
     private final byte outConfirmation = 2;   // подтверждение
-    
+
     public void sendInterruptGame(byte id, String winUserName) {
         DataBuffer backDataBuffer = new DataBuffer();
         backDataBuffer.add(outConfirmation);

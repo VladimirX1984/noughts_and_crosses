@@ -13,9 +13,9 @@ import ncserver.utils.IBaseObject;
  */
 public class GameMessage {
 
-    private int id;
-    private String msg;
-    private IBaseObject data;
+    private final int id;
+    private final String msg;
+    private final IBaseObject data;
 
     public int getId() {
         return id;
@@ -29,19 +29,21 @@ public class GameMessage {
         return data;
     }
 
-    public GameMessage(int aId, String amsg) {
-        id = aId;
-        msg = amsg;
+    public GameMessage(int id, String msg) {
+        this.id = id;
+        this.msg = msg;
+        this.data = null;
     }
 
-    public GameMessage(int aId, IBaseObject adata) {
-        id = aId;
-        data = adata;
+    public GameMessage(int id, IBaseObject data) {
+        this.id = id;
+        this.msg = null;
+        this.data = data;
     }
     
-    public GameMessage(int aId, IBaseObject adata, String amsg) {
-        id = aId;
-        data = adata;
-        msg = amsg;
+    public GameMessage(int id, IBaseObject data, String msg) {
+        this.id = id;
+        this.data = data;
+        this.msg = msg;
     }
 }

@@ -50,10 +50,10 @@ public final class DataReader {
         attachData(dataBuffer, 0);
     }
 
-    public void attachData(byte[] adata, int offset, int dataSize) {
-        data = adata;
-        begin = Math.max(0, offset);
-        end = begin + Math.max(0, dataSize);
+    public void attachData(byte[] data, int offset, int dataSize) {
+        this.data = data;
+        this.begin = Math.max(0, offset);
+        this.end = this.begin + Math.max(0, dataSize);
         reset();
     }
 

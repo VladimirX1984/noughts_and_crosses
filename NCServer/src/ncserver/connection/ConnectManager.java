@@ -21,18 +21,18 @@ public abstract class ConnectManager extends ListenerManager implements IConnect
 
     // <editor-fold defaultstate="collapsed" desc="Отправка данных">
     @Override
-    public void send(IConnectionInfo connect, boolean back, byte[] data, int size) {
+    public void send(IConnectionInfo connectInfo, boolean back, byte[] data, int size) {
         if (size == 0) {
             return;
         }
-        if (connect == null) {
+        if (connectInfo == null) {
             return;
         }
 
-        sendTo(connect, back, data, size);
+        sendTo(connectInfo, back, data, size);
     }
 
-    protected abstract void sendTo(IConnectionInfo connect, boolean back, byte[] data, int size);
+    protected abstract void sendTo(IConnectionInfo connectInfo, boolean back, byte[] data, int size);
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Прием данных">

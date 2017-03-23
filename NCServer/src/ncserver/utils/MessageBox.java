@@ -11,8 +11,7 @@ import javax.swing.JOptionPane;
  *
  * @author Vladimir
  */
-public final class MessageBox {
-
+public class MessageBox {
     public static void show(String infoMessage, String titleBar) {
         JOptionPane.
             showMessageDialog(null, infoMessage == null ? titleBar : infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);

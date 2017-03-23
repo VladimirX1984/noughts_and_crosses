@@ -68,7 +68,7 @@ public class TcpServer extends Server implements IServer, Runnable {
 
         try {
             super.stop();
-            gameCtrl.removeAllGameSessions();
+            gameSessionMan.removeAllGameSessions();
             sendEvent(GameMessageId.SERVER_STOPPED, null);
             if (serverSocket != null) {
                 serverSocket.socket().close();
@@ -108,7 +108,7 @@ public class TcpServer extends Server implements IServer, Runnable {
             }
         }
         if (connections.isEmpty()) {
-            gameCtrl.removeGameSession(TcpServer.GAME_ID);
+            gameSessionMan.removeGameSession(TcpServer.GAME_ID);
         }
     }
 
@@ -172,33 +172,23 @@ public class TcpServer extends Server implements IServer, Runnable {
     // <editor-fold defaultstate="collapsed" desc="Инициализация">
     public static final String GAME_ID = "abs123";
 
-    private String name;
-
-    private int portNumber;
-
     private volatile boolean bRunning = false;
-
-    protected IGameSessionManager gameCtrl;
 
     private ServerSocketChannel serverSocket;
     private Selector selector;
 
-    public TcpServer(IGameSessionManager agameCtrl, int port, SessionFactory sessionManager) {
-        this(agameCtrl, "Сервер: " + port, port, sessionManager, 0);
+    public TcpServer(IGameSessionManager gameSessionMan, int portNumber, SessionFactory sessionManager) {
+        this(gameSessionMan, "Сервер: " + portNumber, portNumber, sessionManager, 0);
     }
 
-    public TcpServer(IGameSessionManager agameCtrl, String serverName, int port,
+    public TcpServer(IGameSessionManager gameSessionMan, String name, int portNumber,
                      SessionFactory sessionManager) {
-        this(agameCtrl, serverName, port, sessionManager, 0);
+        this(gameSessionMan, name, portNumber, sessionManager, 0);
     }
 
-    public TcpServer(IGameSessionManager agameCtrl, String serverName, int aPort,
-                     SessionFactory aSessionManager, int maxConnectionNumber) {
-        super(maxConnectionNumber);
-        gameCtrl = agameCtrl;
-        name = serverName;
-        portNumber = aPort;
-        sessionFactory = aSessionManager;
+    public TcpServer(IGameSessionManager gameSessionMan, String name, int portNumber,
+                     SessionFactory sessionManager, int maxConnectionNumber) {
+        super(gameSessionMan, sessionManager, name, portNumber, maxConnectionNumber);
         start();
     }
     // </editor-fold>

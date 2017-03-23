@@ -22,8 +22,8 @@ public class GameStateChecker {
     public static final int WIN_0 = 2;
     public static final int MATCH_DRAWN = 3;
 
-    protected boolean isFilled(NC_GameState gameState, int numberToWinNeed,
-                               char cellValue, char freeCell) {
+    protected boolean isFilled(NC_GameState gameState, int numberToWinNeed, char cellValue,
+                               char freeCell) {
         int lineCount = (int)Math.sqrt(gameState.count());
 
         int numberToWin = 0;

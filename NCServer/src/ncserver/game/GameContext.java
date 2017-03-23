@@ -26,18 +26,18 @@ public class GameContext {
     }
 
     public <TSessionFactory extends SessionFactory> TSessionFactory getSessionFactory() {
-        return (TSessionFactory)connector;
+        return (TSessionFactory)factory;
     }
 
-    public void setSessionFactory(SessionFactory aconnector) {
-        connector = aconnector;
+    public void setSessionFactory(SessionFactory factory) {
+        this.factory = factory;
     }
 
-    public GameContext(IAppGame agame) {
-        game = agame;
+    public GameContext(IAppGame game) {
+        this.game = game;
     }
 
     private final IAppGame game;
     private IGameSessionManager gameSessionMan;
-    private SessionFactory connector;
+    private SessionFactory factory;
 }
