@@ -7,6 +7,7 @@ package ncserver;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ncserver.db.impl.NC_GameResultDbImpl;
 import ncserver.game.GameContext;
 import ncserver.game.GameSession;
 import ncserver.game.GameStateChecker;
@@ -202,7 +203,7 @@ public class NC_GameSession extends GameSession implements Runnable {
         return winner;
     }
 
-    public String getWinnerUser() {
+    public String getWinnerUserName() {
         switch (winner) {
             case GameStateChecker.NONE:
             case GameStateChecker.MATCH_DRAWN: {
@@ -235,6 +236,23 @@ public class NC_GameSession extends GameSession implements Runnable {
         if (bGameEnded) {
             duration = getDuration();
             finish();
+            NC_GameResult gameResult = new NC_GameResult();
+            gameResult.setId(1);
+            gameResult.setToken(getGameToken());
+            gameResult.setGameCreatorName(getUserNameX());
+            gameResult.setUserNames(getUserName0());
+            gameResult.setWinName(getWinnerUserName());
+            long time = duration / 1000;
+            int min = (int)time / 60;
+            int sec = (int)time % 60;
+            if (sec < 10) {
+                gameResult.setDuration(min + ":0" + sec);
+            }
+            else {
+                gameResult.setDuration(min + ":" + sec);
+            }
+            NC_GameResultDbImpl db = new NC_GameResultDbImpl();
+            db.addGameResult(gameResult);
         }
     }
     // </editor-fold>

@@ -212,7 +212,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             gameSession.makeMove(row, coll, cellValue.charAt(0));
             int winner = gameSession.getWinner();
             if (winner > GameStateChecker.NONE && winner != GameStateChecker.MATCH_DRAWN) {
-                context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUser());
+                context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUserName());
             }
             JSONObject obj = new JSONObject();
             obj.put("status", "ok");
@@ -254,7 +254,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             JSONArray field = new JSONArray(gameSession.getGameState().getStringArray());
             obj.put("field", field);
             if (winner > GameStateChecker.NONE) {
-                String userName = gameSession.getWinnerUser();
+                String userName = gameSession.getWinnerUserName();
                 gameSession.removePlayer();
                 obj.put("winner", winner);
                 if (!"".equals(userName)) {
@@ -319,7 +319,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             }
             if (!isObserver) {
                 gameSession.surrender(isGameCreator);
-                context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUser());
+                context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUserName());
                 if (exit) {
                     gameSession.removePlayer();
                 }

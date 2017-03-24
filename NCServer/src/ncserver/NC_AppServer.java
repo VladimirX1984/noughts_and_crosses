@@ -5,6 +5,9 @@
  */
 package ncserver;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import ncserver.db.HibernateUtil;
 import ncserver.game.*;
 
 /**
@@ -28,6 +31,23 @@ public class NC_AppServer extends BaseAppGame {
     }
 
     public void run() {
+        if (HibernateUtil.connectToDb(3306, "nc_game")) {
+            ResultSet res = HibernateUtil.executeAndGetResult("SHOW TABLES LIKE 'nc_game_results'");
+            if (res != null) {
+                try {
+                    if (!res.first()) {
+                        String sQuery = "CREATE TABLE nc_game_results (id INT NOT NULL, token VARCHAR(255), creator_name VARCHAR(255), user_names VARCHAR(255), winName VARCHAR(255), duration VARCHAR(8));";
+                        if (!HibernateUtil.executeUpdate(sQuery)) {
+                            System.err.println("Таблица не создана");
+                        }
+                    }
+                }
+                catch (SQLException ex) {
+                    System.err.println(ex);
+                }
+            }
+            HibernateUtil.closeConnection();
+        }
         System.out.println("run");
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

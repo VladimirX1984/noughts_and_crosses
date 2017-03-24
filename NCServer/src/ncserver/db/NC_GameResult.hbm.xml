@@ -1,10 +1,12 @@
 <hibernate-mapping>
   <class name="ncserver.NC_GameResult" table="nc_game_results">
-    <id column="id" name="id" type="java.lang.Long">
+    <id column="id" name="id" type="java.lang.Integer">
       <generator class="increment"/>
     </id>
     <property column="token" name="token" type="java.lang.String"/>
 	<property column="creator_name" name="gameCreatorName" type="java.lang.String"/>
-	<property column="user_names" name="userNames" type="java.util.Set"/>    
+	<property column="user_names" name="userNames" type="java.lang.String"/>
+    <property column="winName" name="winName" type="java.lang.String"/>
+    <property column="duration" name="duration" type="java.lang.String"/>
   </class>
 </hibernate-mapping>

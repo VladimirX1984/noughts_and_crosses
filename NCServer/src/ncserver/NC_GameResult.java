@@ -5,53 +5,67 @@
  */
 package ncserver;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  *
  * @author Vladimir
  */
 public class NC_GameResult {
-    
-    private Long id;
+
+    private int id;
     private String token;
     private String gameCreatorName;
-    private Set userNames = new HashSet<String>();
-    
+    private String userNames;
+    private String winName;
+    private String duration;
+
     public NC_GameResult() {
-        
     }
-    
-    public Long getId() {
+
+    public int getId() {
         return id;
     }
-    
-    public void setId(Long id) {
+
+    public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getToken() {
         return token;
     }
-    
+
     public void setToken(String token) {
         this.token = token;
     }
-    
+
     public String getGameCreatorName() {
         return gameCreatorName;
     }
-    
+
     public void setGameCreatorName(String gameCreatorName) {
         this.gameCreatorName = gameCreatorName;
     }
-    
-    public Set getUserNames(Set gameCreatorName) {
+
+    public String getUserNames() {
         return userNames;
     }
-    
-    public void setUserNames(Set userNames) {
+
+    public void setUserNames(String userNames) {
         this.userNames = userNames;
+    }
+    
+    public String getWinName() {
+        return userNames;
+    }
+
+    public void setWinName(String winName) {
+        this.winName = winName;
+    }
+    
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }
