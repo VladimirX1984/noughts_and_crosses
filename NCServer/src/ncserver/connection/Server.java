@@ -6,6 +6,7 @@
 package ncserver.connection;
 
 import java.util.ArrayList;
+import ncserver.game.IGameSessionManager;
 
 /**
  *
@@ -30,19 +31,32 @@ public abstract class Server extends ConnectManager implements IServer {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public int getMaxConnectionNumber() {
         return maxConnectionNumber;
     }
     // </editor-fold>
 
+    protected final IGameSessionManager gameSessionMan;
+    protected final SessionFactory sessionFactory;
+    protected final int portNumber;
+
+    private final String name;
     private final int maxConnectionNumber;
 
-    public Server(int aMaxConnectionNumber) {
-        maxConnectionNumber = aMaxConnectionNumber;
-        connections = new ArrayList<IConnectionInfo>();
+    public Server(IGameSessionManager gameSessionMan, SessionFactory sessionFactory, String name,
+                  int portNumber, int maxConnectionNumber) {
+        this.gameSessionMan = gameSessionMan;
+        this.sessionFactory = sessionFactory;
+        this.name = name;
+        this.portNumber = portNumber;
+        this.maxConnectionNumber = maxConnectionNumber;
+        this.connections = new ArrayList<IConnectionInfo>();
     }
-
-    protected SessionFactory sessionFactory;
 
     protected final ArrayList<IConnectionInfo> connections;
 

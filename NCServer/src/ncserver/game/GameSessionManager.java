@@ -16,7 +16,8 @@ public abstract class GameSessionManager implements IGameSessionManager, IListen
 
     // <editor-fold defaultstate="collapsed" desc="Реализация интерфейса IGameSessionManager">
     @Override
-    public final void initGameSession(String accessToken, String gameToken) {
+    public final <TGameSession extends IGameSession> TGameSession createGameSession(
+        String accessToken, String gameToken) {
         IGameSession gameSession = gameSessionByAccessToken.get(accessToken);
         if (gameSession == null) {
             gameSession = createSession(context, accessToken, gameToken);
@@ -27,13 +28,16 @@ public abstract class GameSessionManager implements IGameSessionManager, IListen
         if (!gameSessionByGameToken.containsKey(gameToken)) {
             gameSessionByGameToken.put(gameToken, (GameSession)gameSession);
         }
+        return (TGameSession)gameSession;
     }
 
     @Override
-    public final void initGameSession(String accessToken, String gameToken, Object data) {
-        initGameSession(accessToken, gameToken);
+    public final <TGameSession extends IGameSession> TGameSession createGameSession(
+        String accessToken, String gameToken, Object data) {
+        GameSessionManager.this.createGameSession(accessToken, gameToken);
         IGameSession gameSession = gameSessionByAccessToken.get(accessToken);
         gameSession.init(data);
+        return (TGameSession)gameSession;
     }
 
     @Override
@@ -100,10 +104,10 @@ public abstract class GameSessionManager implements IGameSessionManager, IListen
     private final HashMap<String, IGameSession> gameSessionByAccessToken;
     private final HashMap<String, IGameSession> gameSessionByGameToken;
 
-    public GameSessionManager(GameContext acontext) {
-        context = acontext;
-        gameSessionByAccessToken = new HashMap<String, IGameSession>();
-        gameSessionByGameToken = new HashMap<String, IGameSession>();
+    public GameSessionManager(GameContext context) {
+        this.context = context;
+        this.gameSessionByAccessToken = new HashMap<String, IGameSession>();
+        this.gameSessionByGameToken = new HashMap<String, IGameSession>();
     }
 
     protected abstract IGameSession createSession(GameContext context, String accessToken,

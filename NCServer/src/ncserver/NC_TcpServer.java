@@ -18,26 +18,28 @@ import ncserver.game.IGameSessionManager;
  */
 public class NC_TcpServer extends TcpServer {
 
-    public NC_TcpServer(IGameSessionManager agameCtrl, int port, SessionFactory sessionManager) {
-        this(agameCtrl, "Сервер: " + port, port, sessionManager, 0);
-    }
-
-    public NC_TcpServer(IGameSessionManager agameCtrl, String serverName, int port,
+    public NC_TcpServer(IGameSessionManager gameSessionMan, int portNumber,
                         SessionFactory sessionManager) {
-        this(agameCtrl, serverName, port, sessionManager, 0);
+        this(gameSessionMan, "Сервер: " + portNumber, portNumber, sessionManager, 0);
     }
 
-    public NC_TcpServer(IGameSessionManager gameCtrl, String serverName, int port,
+    public NC_TcpServer(IGameSessionManager gameSessionMan, String serverName, int portNumber,
+                        SessionFactory sessionManager) {
+        this(gameSessionMan, serverName, portNumber, sessionManager, 0);
+    }
+
+    public NC_TcpServer(IGameSessionManager gameSessionMan, String name, int portNumber,
                         SessionFactory sessionManager, int maxConnectionNumber) {
-        super(gameCtrl, serverName, port, sessionManager, maxConnectionNumber);
+        super(gameSessionMan, name, portNumber, sessionManager, maxConnectionNumber);
     }
 
     @Override
     protected final void onSocketClosed(final TcpConnectionInfo connInfo) {
         NC_TcpSession session = (NC_TcpSession)connInfo.getSession();
         if (!session.getObserver()) {
-            NC_GameSession gameSession = ((GameSessionManager)gameCtrl).getGameSession(session.
-                getGameSessionId());
+            NC_GameSession gameSession = ((GameSessionManager)gameSessionMan).
+                getGameSession(session.
+                    getGameSessionId());
             if (gameSession.isGameEnded()) {
                 return;
             }

@@ -22,11 +22,11 @@ public class NC_Connector implements SessionFactory {
     public ISession сreateSession(IConnectManager connectHandler, IConnectionInfo connection) {
         if (connectHandler == server) {
             ISession session = null;
-            if (protocol.equals(protocols[0])) {
+            if (protocol.equals(PROTOCOLS[0])) {
                 session = new NC_TcpSession((IServer)connectHandler, connection, context, clientSessions.
                     size() + 1);
             }
-            else if (protocol.equals(protocols[1])) {
+            else if (protocol.equals(PROTOCOLS[1])) {
                 session = new NC_HttpSession((IServer)connectHandler, connection, context);
             }
             else {
@@ -34,7 +34,7 @@ public class NC_Connector implements SessionFactory {
             }
             synchronized (clientSessions) {
                 clientSessions.add(session);
-                if (protocol.equals(protocols[0])) {
+                if (protocol.equals(PROTOCOLS[0])) {
                     ((NC_TcpSession)session).setObserver(clientSessions.size() > server.
                         getMaxConnectionNumber());
                 }
@@ -74,11 +74,11 @@ public class NC_Connector implements SessionFactory {
 
     private String protocol;
 
-    private static final String[] protocols = new String[]{"TCP", "HTTP"};
+    private static final String[] PROTOCOLS = new String[]{"TCP", "HTTP"};
 
-    public NC_Connector(GameContext aContext) {
-        context = aContext;
-        protocol = protocols[0];
+    public NC_Connector(GameContext context) {
+        this.context = context;
+        protocol = PROTOCOLS[0];
     }
     // </editor-fold>
 
@@ -87,7 +87,7 @@ public class NC_Connector implements SessionFactory {
             MessageBox.showError("Не определен протокол", "Ошибка");
             return false;
         }
-        if (protocol.equals(protocols[0])) {
+        if (protocol.equals(PROTOCOLS[0])) {
             server = new NC_TcpServer(context.getGameSessionManager(), serverName, port, this, 2);
             if (!server.isRunning()) {
                 MessageBox.showError("При запуске сервера произошла ошибка", "Ошибка");
@@ -98,7 +98,7 @@ public class NC_Connector implements SessionFactory {
             (new Thread((TcpServer)server)).start();
             return true;
         }
-        if (protocol.equals(protocols[1])) {
+        if (protocol.equals(PROTOCOLS[1])) {
             server = new HTTPServer(context.getGameSessionManager(), serverName, port, this, 2);
             server.addListener(context.GetGame());
             clientSessions = new ArrayList<>();

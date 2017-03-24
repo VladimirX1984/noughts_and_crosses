@@ -71,9 +71,9 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
     private final String inGameState = "/state";
     private final String inPlayerExit = "/exit";
 
-    public NC_HttpSession(IServer server, IConnectionInfo connection, GameContext aContext) {
-        super(server, connection);
-        context = aContext;
+    public NC_HttpSession(IServer server, IConnectionInfo connectInfo, GameContext context) {
+        super(server, connectInfo);
+        this.context = context;
 
         addMessageHandler(inCreateGame, new MessageCreateGameHandler());
         addMessageHandler(inJoinGame, new MessageJoinGameHandler());
@@ -111,13 +111,15 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             String accessToken = generator.nextSessionId();
             String gameToken = rnd.nextString();
 
-            context.getGameSessionManager().initGameSession(accessToken, gameToken, rowCellCount);
-            NC_GameSession gameSession = context.getGameSessionManager().getGameSession(accessToken);
+            NC_GameSession gameSession = context.getGameSessionManager().
+                createGameSession(accessToken, gameToken, rowCellCount);
             gameSession.setUserNameX(userName);
             gameSession.setNumberToWin(numberToWin);
-            gameSession.setYourMove(bMyFirstMove, bMyFirstMove);
+            gameSession.setMyFirstMove(bMyFirstMove);
+            gameSession.setMyMove(bMyFirstMove);
 
-            context.GetGame().sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(0, gameSession));
+            context.GetGame().
+                sendEvent(GameMessageId.CLIENT_CONNECTED, new GameMessage(0, gameSession));
 
             JSONObject obj = new JSONObject();
             obj.put("status", "ok");
@@ -172,7 +174,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             obj.put("status", "ok");
             obj.put("access_token", gameSession.getAccessToken());
             obj.put("mode", mode);
-            obj.put("size", gameSession.getGameState().size());
+            obj.put("size", gameSession.getGameState().getSize());
             obj.put("number_to_win", gameSession.getNumberToWin());
             obj.put("your_first_turn", !gameSession.isMyFirstMove());
             sendData(obj);
@@ -208,7 +210,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
             int coll = jsonObject.getInt("coll");
             String cellValue = jsonObject.getString("cellValue");
             gameSession.makeMove(row, coll, cellValue.charAt(0));
-            int winner = gameSession.finishGameIfNeeded();
+            int winner = gameSession.getWinner();
             if (winner > GameStateChecker.NONE && winner != GameStateChecker.MATCH_DRAWN) {
                 context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUser());
             }
@@ -229,7 +231,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
                 onReceivingError("access token is undefined");
                 return false;
             }
-            String accessToken = headers.getFirst("access_token");            
+            String accessToken = headers.getFirst("access_token");
             if (!headers.containsKey("game_creator")) {
                 onReceivingError("header is invalid");
             }
@@ -242,7 +244,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
                 return false;
             }
             boolean bMyMove = gameSession.isMyMove();
-            int winner = gameSession.finishGameIfNeeded();
+            int winner = gameSession.getWinner();
             JSONObject obj = new JSONObject();
             obj.put("status", "ok");
             boolean bYouTurn = gameSession.isPlayerJoined()
@@ -282,13 +284,13 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
                 onReceivingError("access token is undefined");
                 return false;
             }
-            String accessToken = headers.getFirst("access_token");            
+            String accessToken = headers.getFirst("access_token");
             if (!headers.containsKey("game_creator")) {
                 onReceivingError("header is invalid");
                 return false;
             }
             String sGameCreator = headers.getFirst("game_creator");
-            boolean isGameCreator = Integer.parseInt(sGameCreator) == 1;            
+            boolean isGameCreator = Integer.parseInt(sGameCreator) == 1;
             if (!headers.containsKey("observer")) {
                 onReceivingError("header is invalid");
                 return false;
@@ -316,7 +318,7 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
                 exit = jsonObject.getBoolean("exit");
             }
             if (!isObserver) {
-                gameSession.surrenderGame(isGameCreator);
+                gameSession.surrender(isGameCreator);
                 context.GetGame().sendEvent(GameMessageId.WIN_CLIENT, gameSession.getWinnerUser());
                 if (exit) {
                     gameSession.removePlayer();
@@ -355,7 +357,6 @@ public final class NC_HttpSession extends HttpSessionBasedOnJson {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Отправка сообщений">            
-
     private void sendData(JSONObject jsonObject) {
         DataBuffer dataBuffer = new DataBuffer(jsonObject.toString());
         sendData(true, dataBuffer.getBuffer(), (short)dataBuffer.getBufferSize());

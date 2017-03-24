@@ -22,36 +22,6 @@ import ncserver.game.IGameSessionManager;
  */
 public class HTTPServer extends Server {
 
-    // <editor-fold defaultstate="collapsed" desc="Инициализация">
-    private String name;
-
-    private int portNumber;
-
-    private boolean bRunning = false;
-
-    protected IGameSessionManager gameCtrl;
-
-    private HttpServer server;
-
-    public HTTPServer(IGameSessionManager agameCtrl, int port, SessionFactory sessionManager) {
-        this(agameCtrl, "Сервер: " + port, port, sessionManager, 0);
-    }
-
-    public HTTPServer(IGameSessionManager agameCtrl, String serverName, int port,
-                      SessionFactory sessionManager) {
-        this(agameCtrl, serverName, port, sessionManager, 0);
-    }
-
-    public HTTPServer(IGameSessionManager agameCtrl, String serverName, int aPort,
-                      SessionFactory aSessionManager, int maxConnectionNumber) {
-        super(maxConnectionNumber);
-        gameCtrl = agameCtrl;
-        name = serverName;
-        portNumber = aPort;
-        sessionFactory = aSessionManager;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Реализация абстрактного класса Server">
     @Override
     public final boolean isRunning() {
@@ -108,7 +78,7 @@ public class HTTPServer extends Server {
 
         try {
             super.stop();
-            gameCtrl.removeAllGameSessions();
+            gameSessionMan.removeAllGameSessions();
             sendEvent(GameMessageId.SERVER_STOPPED, null);
             if (server != null) {
                 server.stop(1);
@@ -124,7 +94,7 @@ public class HTTPServer extends Server {
     @Override
     protected void onCloseConnection(IConnectionInfo connectInfo, boolean bClientClose) {
         if (connections.isEmpty()) {
-            gameCtrl.removeAllGameSessions();
+            gameSessionMan.removeAllGameSessions();
         }
     }
 
@@ -145,12 +115,33 @@ public class HTTPServer extends Server {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Инициализация">    
+    private boolean bRunning = false;
+
+    private HttpServer server;
+
+    public HTTPServer(IGameSessionManager gameSessionMan, int portNumber,
+                      SessionFactory sessionManager) {
+        this(gameSessionMan, "Сервер: " + portNumber, portNumber, sessionManager, 0);
+    }
+
+    public HTTPServer(IGameSessionManager gameSessionMan, String name, int portNumber,
+                      SessionFactory sessionManager) {
+        this(gameSessionMan, name, portNumber, sessionManager, 0);
+    }
+
+    public HTTPServer(IGameSessionManager gameSessionMan, String name, int portNumber,
+                      SessionFactory sessionManager, int maxConnectionNumber) {
+        super(gameSessionMan, sessionManager, name, portNumber, maxConnectionNumber);
+    }
+    // </editor-fold>
+
     private HttpExchange currExchange;
 
-    private void accept(ISession session, HttpConnectionInfo connect) {
-        connect.setSession(session);
+    private void accept(ISession session, HttpConnectionInfo connectInfo) {
+        connectInfo.setSession(session);
         synchronized (connections) {
-            connections.add(connect);
+            connections.add(connectInfo);
         }
     }
 

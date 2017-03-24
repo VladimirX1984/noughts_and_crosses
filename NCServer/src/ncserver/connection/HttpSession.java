@@ -82,9 +82,9 @@ public abstract class HttpSession extends AbstractSession implements IHttpSessio
     }
     // </editor-fold>
 
-    public HttpSession(IConnectManager connManager, IConnectionInfo connection) {
-        connectManager = connManager;
-        connectInfo = connection;
+    public HttpSession(IConnectManager connectManager, IConnectionInfo connectInfo) {
+        this.connectManager = connectManager;
+        this.connectInfo = connectInfo;
     }
 
     protected abstract class MessageHandler {

@@ -96,8 +96,8 @@ public class NC_GameSession extends GameSession implements Runnable {
     public final String CELL_X = "X";
     public final String CELL_0 = "0";
 
-    public NC_GameSession(GameContext acontext, String anAccessToken, String anGameToken) {
-        super(acontext, anAccessToken, anGameToken);
+    public NC_GameSession(GameContext context, String accessToken, String gameToken) {
+        super(context, accessToken, gameToken);
         bMyFirstMove = true;
         numberToWin = 3;
         bMyMove = false;
@@ -163,6 +163,10 @@ public class NC_GameSession extends GameSession implements Runnable {
         numberToWin = val;
     }
 
+    public NC_GameState getGameState() {
+        return gameState;
+    }
+
     public void setGameState(String data) {
         gameState.setData(data);
     }
@@ -171,17 +175,15 @@ public class NC_GameSession extends GameSession implements Runnable {
         startTime = System.currentTimeMillis();
         gameState.setCellValue(number, cellValue);
         bMyMove = !bMyMove;
+        if (!isGameEnded()) {
+            finishGameIfNeeded();
+        }
         return true;
     }
 
     public boolean makeMove(int row, int coll, char cellValue) {
-        int number = row * gameState.size() + coll;
+        int number = row * gameState.getSize() + coll;
         return makeMove(number, cellValue);
-    }
-
-    public void setYourMove(boolean abMyFirstMove, boolean abYourMove) {
-        bMyMove = abYourMove;
-        setMyFirstMove(abMyFirstMove);
     }
 
     public void setMyFirstMove(boolean abMyFirstMove) {
@@ -194,10 +196,6 @@ public class NC_GameSession extends GameSession implements Runnable {
 
     public boolean isMyMove() {
         return gameStateChecker.isAnyCellFilled(gameState) ? bMyMove : isMyFirstMove();
-    }
-
-    public NC_GameState getGameState() {
-        return gameState;
     }
 
     public int getWinner() {
@@ -220,7 +218,7 @@ public class NC_GameSession extends GameSession implements Runnable {
         return "";
     }
 
-    public void surrenderGame(boolean gameCreator) {
+    public void surrender(boolean gameCreator) {
         if (!isGameEnded()) {
             duration = getDuration();
             finish();
@@ -231,18 +229,13 @@ public class NC_GameSession extends GameSession implements Runnable {
         }
     }
 
-    public int finishGameIfNeeded() {
-        if (isGameEnded()) {
-            return winner;
-        }
+    private void finishGameIfNeeded() {
         winner = gameStateChecker.getWinner(gameState, numberToWin);
         boolean bGameEnded = winner != GameStateChecker.NONE;
         if (bGameEnded) {
             duration = getDuration();
             finish();
-            return winner;
         }
-        return GameStateChecker.NONE;
     }
     // </editor-fold>
 }

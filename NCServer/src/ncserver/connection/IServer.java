@@ -18,6 +18,8 @@ public interface IServer extends IConnectManager, IListenerManager {
     void start();
 
     void stop();
+    
+    String getName();
 
     int getMaxConnectionNumber();
 }

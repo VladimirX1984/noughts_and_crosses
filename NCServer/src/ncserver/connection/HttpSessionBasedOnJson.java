@@ -50,8 +50,8 @@ public class HttpSessionBasedOnJson extends HttpSession {
         }
     }
 
-    public HttpSessionBasedOnJson(IConnectManager connManager, IConnectionInfo connection) {
-        super(connManager, connection);
+    public HttpSessionBasedOnJson(IConnectManager connectManager, IConnectionInfo connectInfo) {
+        super(connectManager, connectInfo);
     }
 
     protected abstract class JsonMessageHandler {
